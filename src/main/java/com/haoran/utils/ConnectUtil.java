@@ -13,6 +13,7 @@ public class ConnectUtil {
         SparkConf conf = null;
         if (name.equals("root")){
             System.out.println("=============集群运行，yarn模式==============");
+            // conf = new SparkConf().setMaster("yarn").setAppName(name);
             conf = new SparkConf().setMaster("yarn").setAppName(name);
             // 替换默认的序列化机制
             // .set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
@@ -30,14 +31,16 @@ public class ConnectUtil {
         return new JavaSparkContext(getConf());
     }
 
-    // 获取sparkSession
+    // 获取sparkSession 常用
     public SparkSession getSparkSession(){
         return SparkSession.builder().config(getConf()).getOrCreate();
     }
 
     // 获取支持Hive的SparkSession
     public SparkSession getHiveSparkSession(){
-        return SparkSession.builder().enableHiveSupport().config(getConf()).getOrCreate();
+        return SparkSession.builder()
+                .enableHiveSupport()
+                .config(getConf()).getOrCreate();
     }
 
 
